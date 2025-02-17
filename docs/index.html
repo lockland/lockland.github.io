@@ -45,16 +45,38 @@
 
       <h1 class="text-center my-5">Simulador de empréstimos</h1>
 
-    <div class="container-sm text-center border border-secondary-subtle p-5 rounded">
+    <div class="container-sm border border-secondary-subtle p-5 rounded">
       
       <h2 class="text-center mb-5">Simule seu parcelamento</h2>
 
       <div class="row">
         <div class="col-sm-6">
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sit amet nulla facilisi morbi tempus iaculis. Facilisi cras fermentum odio eu feugiat. Tempor commodo ullamcorper a lacus vestibulum sed arcu. Etiam erat velit scelerisque in dictum non consectetur a erat. Platea dictumst quisque sagittis purus sit. Malesuada proin libero nunc consequat interdum varius sit amet. Morbi tempus iaculis urna id volutpat lacus. Mi bibendum neque egestas congue quisque egestas diam in. Ultricies leo integer malesuada nunc. Pellentesque eu tincidunt tortor aliquam nulla facilisi. Nunc sed velit dignissim sodales ut eu sem integer vitae. Elementum facilisis leo vel fringilla est ullamcorper eget. Odio ut sem nulla pharetra diam sit amet. Id cursus metus aliquam eleifend mi in. Fringilla est ullamcorper eget nulla facilisi etiam dignissim. Viverra adipiscing at in tellus integer feugiat. Vehicula ipsum a arcu cursus vitae. Turpis nunc eget lorem dolor.</p>
+          <form onsubmit="handleSubmit(event)">
+            <div class="mb-4">
+              <label for="vd" class="form-label">Valor desejado em R$</label>
+              <input type="number" placeholder="0" class="form-control" id="vd" name="vd" required="required">
+            </div>
+            <div class="mb-4">
+              <label for="m" class="form-label">Selecione o tempo para pagar?</label>
+              <select id="m" class="form-control" name="m" required="required">
+                <option value="1">Próximo mês</option>
+                <option value="2">2 parcelas</option>
+                <option value="3">3 parcelas</option>
+                <option value="4">4 parcelas</option>
+                <option value="5">5 parcelas</option>
+                <option value="6">6 parcelas</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Simular</button>
+          </form>
         </div>
-        <div class="col-sm-6">
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sit amet nulla facilisi morbi tempus iaculis. Facilisi cras fermentum odio eu feugiat. Tempor commodo ullamcorper a lacus vestibulum sed arcu. Etiam erat velit scelerisque in dictum non consectetur a erat. Platea dictumst quisque sagittis purus sit. Malesuada proin libero nunc consequat interdum varius sit amet. Morbi tempus iaculis urna id volutpat lacus. Mi bibendum neque egestas congue quisque egestas diam in. Ultricies leo integer malesuada nunc. Pellentesque eu tincidunt tortor aliquam nulla facilisi. Nunc sed velit dignissim sodales ut eu sem integer vitae. Elementum facilisis leo vel fringilla est ullamcorper eget. Odio ut sem nulla pharetra diam sit amet. Id cursus metus aliquam eleifend mi in. Fringilla est ullamcorper eget nulla facilisi etiam dignissim. Viverra adipiscing at in tellus integer feugiat. Vehicula ipsum a arcu cursus vitae. Turpis nunc eget lorem dolor.</p>
+        <div class="col-sm-6 text-center">
+          <div class="mt-5">
+            <h3>Resultados</h3>
+            <p id='vdOutput' class="small">Valor desejado: <b><span>R$ 0,00</span></b></p>
+            <p id='pgtoOutput' class="small">Valor a ser pago: <b><span>1 x R$ 0,00</span></b></p>
+            <p id='totalOutput' class="small">Valo Total: <b><span>R$ 0,00</span></b></p>
+          </div>
         </div>
       </div>
     </div> 
