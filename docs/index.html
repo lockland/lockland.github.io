@@ -40,6 +40,44 @@
         color: var(--bs-gray-700);
       }
     </style>
+
+    <script>
+      let currentRate
+
+      (async () =>  {
+        const daysToMultiply = 45
+
+        return await fetch(
+          'https://api.bcb.gov.br/dados/serie/bcdata.sgs.11/dados/ultimos/1?formato=json'
+        ).then(
+          r => r.json()
+        ).then(
+          r => {
+            currentRate = parseFloat(r[0]["valor"]) * daysToMultiply / 100
+          }
+        )
+      })();
+
+      const pgto = (amount, rate, months) => amount * Math.pow(1 + rate, months)
+      const formatNumber = (number) => parseFloat(number).toLocaleString('pt-BR', {style: "currency", currency: 'BRL'})
+
+      const handleSubmit = (event) => {
+        event.preventDefault()
+
+        const defaultRate = 0.029
+        const vdOutputValue = document.querySelector("#vdOutput b span")
+        const pgtoOutputValue = document.querySelector("#pgtoOutput b span")
+        const totalOutputValue = document.querySelector("#totalOutput b span")
+        const form = event.target
+        const vdInputValue = parseFloat(form.elements['vd'].value)
+        const monthsInputValue = parseInt(form.elements['m'].value)
+        const futureValue = pgto(vdInputValue, currentRate || defaultRate, monthsInputValue)
+
+        vdOutputValue.innerHTML = formatNumber(vdInputValue)
+        pgtoOutputValue.innerHTML = monthsInputValue + " x " + formatNumber(futureValue / monthsInputValue)
+        totalOutputValue.innerHTML = formatNumber(futureValue)
+      }
+    </script>
   </head>
   <body>
 
