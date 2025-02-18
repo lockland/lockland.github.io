@@ -45,7 +45,7 @@
       let currentRate
 
       (async () =>  {
-        const daysToMultiply = 45
+        const twoMonths = 60
 
         return await fetch(
           'https://api.bcb.gov.br/dados/serie/bcdata.sgs.11/dados/ultimos/1?formato=json'
@@ -53,7 +53,7 @@
           r => r.json()
         ).then(
           r => {
-            currentRate = parseFloat(r[0]["valor"]) * daysToMultiply / 100
+            currentRate = parseFloat(r[0]["valor"]) * twoMonths / 100
           }
         )
       })();
