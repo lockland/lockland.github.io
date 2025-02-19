@@ -16,31 +16,6 @@
       <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
     <![endif]-->
-    <!-- Or versioned -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/styles/base.min.css"
-    />
-
-    <!-- Or versioned -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/styles/choices.min.css"
-    />
-
-    <!-- Or versioned -->
-    <script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
-
-    <!--
-    <script type="text/javascript" async src="https://d335luupugsy2.cloudfront.net/js/loader-scripts/db39dbdc-c76a-49cf-9a3e-71987cc23028-loader.js" ></script>
-    -->
-    <style>
-      body {
-        background-color: var(--bs-white);
-        color: var(--bs-gray-700);
-      }
-    </style>
-
     <script>
       let currentRate
 
@@ -91,12 +66,15 @@
         <div class="col-sm-6">
           <form onsubmit="handleSubmit(event)">
             <div class="mb-4">
-              <label for="vd" class="form-label">Valor desejado em R$</label>
-              <input type="number" placeholder="0" class="form-control" id="vd" name="vd" required="required">
+              <label for="vd" class="form-label">Valor desejado</label>
+              <div class="input-group">
+                <span class="input-group-text">R$</span>
+                <input type="number" placeholder="0" class="form-control form-control-lg" id="vd" name="vd" required="required">
+              </div>
             </div>
             <div class="mb-4">
-              <label for="m" class="form-label">Selecione o tempo para pagar?</label>
-              <select id="m" class="form-control" name="m" required="required">
+              <label for="m" class="form-label">Selecione o tempo para pagar.</label>
+              <select id="m" class="form-select form-select-lg" name="m" required="required">
                 <option value="1">Próximo mês</option>
                 <option value="2">2 parcelas</option>
                 <option value="3">3 parcelas</option>
