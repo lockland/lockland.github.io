@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Além da Idade: Autonomia, Convivência e o Futuro Sem Etarismo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'base-bg': '#FAF9F6',
+                        'base-text': '#2D2D2D',
+                        'primary': '#C2A892',
+                        'primary-dark': '#8A7968',
+                        'accent': '#E5E0D8',
+                        'card-bg': '#FFFFFF'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        serif: ['Merriweather', 'Georgia', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #FAF9F6; color: #2D2D2D; overflow-x: hidden; }
+        
+        .chart-container { 
+            position: relative; 
+            width: 100%; 
+            max-width: 800px; 
+            margin-left: auto; 
+            margin-right: auto; 
+            height: 350px; 
+            max-height: 400px; 
+        }
+        @media (max-width: 768px) {
+            .chart-container { height: 250px; max-height: 300px; }
+        }
+
+        .flip-card {
+            perspective: 1000px;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flip-card.active .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .flip-card-front {
+            background-color: #FFFFFF;
+            border-left: 4px solid #C2A892;
+        }
+        .flip-card-back {
+            background-color: #E5E0D8;
+            transform: rotateY(180deg);
+            border-right: 4px solid #8A7968;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-base-text selection:bg-primary selection:text-white flex flex-col md:flex-row min-h-screen">
+
+    <!-- Chosen Palette: Warm Neutrals (Base: #FAF9F6, Text: #2D2D2D, Primary: #C2A892, Accent: #E5E0D8) -->
+    <!-- Application Structure Plan: A dashboard-style SPA prioritizing non-linear exploration. The report is synthesized into 4 thematic views: "O Cenário" (Demographics/Context), "As Duas Faces" (Comparing elderly vs youth ageism), "Mitos & Cotidiano" (Interactive debunking and quote reveals), and "O Futuro" (Actionable paths). This structure allows users to immediately grasp the demographic urgency, explore the bilateral nature of ageism interactively, and end with solutions, making the content highly digestible compared to a linear text document. -->
+    <!-- Visualization & Content Choices: 1. Life Expectancy -> Goal: Contextualize urgency -> Line Chart (Chart.js) -> Hover tooltips -> Shows rapid increase driving the need for change. 2. Two Faces of Ageism -> Goal: Compare -> Interactive Toggle -> Switches text and context for Youth vs Elderly. 3. Everyday Quotes -> Goal: Reveal hidden prejudice -> Flip Cards (HTML/CSS/JS) -> Click to flip and read the true meaning behind common phrases. 4. Myths vs Facts -> Goal: Debunk -> Interactive Tabs -> Switches content without overwhelming the screen. ALL using HTML/Tailwind/Canvas. Confirming NO SVG/Mermaid. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <nav class="w-full md:w-64 bg-card-bg shadow-lg flex flex-col justify-between sticky top-0 md:h-screen z-50">
+        <div class="p-6">
+            <div class="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white text-3xl font-serif font-bold mb-4">A</div>
+            <h1 class="text-xl font-serif font-bold leading-tight mb-2">Além da Idade</h1>
+            <p class="text-sm text-gray-500 mb-8">Autonomia, Convivência e o Futuro Sem Etarismo</p>
+            
+            <ul class="space-y-2">
+                <li><button onclick="nav('cenario')" id="nav-cenario" class="nav-btn w-full text-left px-4 py-3 rounded-lg bg-accent text-primary-dark font-medium transition-colors">📊 O Cenário</button></li>
+                <li><button onclick="nav('faces')" id="nav-faces" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors">⚖️ As Duas Faces</button></li>
+                <li><button onclick="nav('mitos')" id="nav-mitos" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors">💬 Mitos & Cotidiano</button></li>
+                <li><button onclick="nav('futuro')" id="nav-futuro" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors">🚀 Caminhos Futuros</button></li>
+            </ul>
+        </div>
+        <div class="p-6 text-xs text-gray-400 border-t border-gray-100">
+            <p>Baseado no relatório oficial.</p>
+            <p class="mt-1">Fontes: IBGE, OMS, Science Advances, CJI/TJDFT.</p>
+        </div>
+    </nav>
+
+    <main class="flex-1 p-6 md:p-12 overflow-y-auto w-full max-w-5xl mx-auto">
+        
+        <section id="sec-cenario" class="view-section block animate-fade-in">
+            <header class="mb-10">
+                <h2 class="text-sm uppercase tracking-widest text-primary font-bold mb-2">O Contexto Demográfico</h2>
+                <h3 class="text-4xl md:text-5xl font-serif font-bold text-base-text mb-6">A Urgência da Longevidade</h3>
+                <p class="text-lg leading-relaxed text-gray-600">A mitigação do etarismo exige ações práticas que devolvam a autonomia a todas as fases da vida. Essa discussão torna-se ainda mais urgente diante do cenário demográfico atual. Explore o gráfico abaixo para entender como o aumento acelerado da expectativa de vida transforma a forma como a sociedade deve organizar o trabalho e as relações sociais.</p>
+            </header>
+
+            <div class="bg-card-bg p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100 mb-8">
+                <h4 class="text-xl font-serif font-bold mb-2">Evolução da Expectativa de Vida (Brasil)</h4>
+                <p class="text-sm text-gray-500 mb-6">Projeção histórica e futura baseada em dados demográficos (IBGE).</p>
+                
+                <div class="chart-container">
+                    <canvas id="lifeExpectancyChart"></canvas>
+                </div>
+                
+                <div class="mt-6 p-4 bg-accent/30 rounded-lg text-sm text-gray-700">
+                    <strong>💡 Insight:</strong> Viver mais é uma conquista da medicina e das condições de vida. Atingimos <strong>76,6 anos em 2024</strong>. O envelhecimento ativo não é mais o futuro distante, é a realidade presente que exige adaptação do mercado e da sociedade.
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-faces" class="view-section hidden animate-fade-in">
+            <header class="mb-10">
+                <h2 class="text-sm uppercase tracking-widest text-primary font-bold mb-2">O Conceito</h2>
+                <h3 class="text-4xl md:text-5xl font-serif font-bold text-base-text mb-6">As Duas Faces do Etarismo</h3>
+                <p class="text-lg leading-relaxed text-gray-600">O etarismo (ou idadismo) é alimentado pela facilidade com que a nossa sociedade valoriza o "novo". Nessa corrida, tanto o jovem quanto o idoso acabam desvalorizados. Utilize os botões abaixo para explorar como o preconceito se manifesta de forma diferente, porém igualmente excludente, para cada geração, especialmente nos espaços públicos.</p>
+            </header>
+
+            <div class="flex flex-col md:flex-row gap-4 mb-8 justify-center">
+                <button onclick="toggleFace('idosos')" id="btn-idosos" class="px-8 py-4 bg-primary text-white font-bold rounded-full shadow-md transition-transform transform hover:scale-105">👵 Perspectiva dos Idosos</button>
+                <button onclick="toggleFace('jovens')" id="btn-jovens" class="px-8 py-4 bg-white text-gray-600 border border-gray-200 font-bold rounded-full shadow-sm transition-transform transform hover:scale-105 hover:bg-gray-50">👶 Perspectiva dos Jovens</button>
+            </div>
+
+            <div id="content-idosos" class="face-content block">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-card-bg p-8 rounded-2xl shadow-sm border-t-4 border-primary">
+                        <div class="text-4xl mb-4">🚫</div>
+                        <h4 class="text-xl font-serif font-bold mb-3">Estereótipo Central</h4>
+                        <p class="text-gray-600 leading-relaxed">O envelhecimento é associado automaticamente à invalidez, à falta de produtividade ou à incapacidade de aprender. O idoso é visto apenas como "o passado".</p>
+                    </div>
+                    <div class="bg-card-bg p-8 rounded-2xl shadow-sm border-t-4 border-primary">
+                        <div class="text-4xl mb-4">🏥</div>
+                        <h4 class="text-xl font-serif font-bold mb-3">Vivência no Espaço Público</h4>
+                        <p class="text-gray-600 leading-relaxed">Desumanização no acesso a serviços. Filas de madrugada em postos de saúde, transportes com motoristas sem paciência e a retirada do direito de circular com autonomia ("devia ficar em casa").</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="content-jovens" class="face-content hidden animate-fade-in">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-card-bg p-8 rounded-2xl shadow-sm border-t-4 border-primary-dark">
+                        <div class="text-4xl mb-4">⚖️</div>
+                        <h4 class="text-xl font-serif font-bold mb-3">Estereótipo Central</h4>
+                        <p class="text-gray-600 leading-relaxed">A pouca idade é utilizada para deslegitimar a competência, a liderança ou a voz do indivíduo. O jovem é visto apenas como um "produto de consumo futuro" sob a justificativa de falta de experiência.</p>
+                    </div>
+                    <div class="bg-card-bg p-8 rounded-2xl shadow-sm border-t-4 border-primary-dark">
+                        <div class="text-4xl mb-4">📱</div>
+                        <h4 class="text-xl font-serif font-bold mb-3">Vivência no Espaço Público</h4>
+                        <p class="text-gray-600 leading-relaxed">Vigilância constante e hostilidade. Julgamento focado no comportamento coletivo, rotulados como barulhentos ou excessivamente distraídos com o celular, ignorando que esta é sua ferramenta de interação com o mundo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-mitos" class="view-section hidden animate-fade-in">
+            <header class="mb-10">
+                <h2 class="text-sm uppercase tracking-widest text-primary font-bold mb-2">Desconstrução</h2>
+                <h3 class="text-4xl md:text-5xl font-serif font-bold text-base-text mb-6">Mitos & "Quem Nunca?"</h3>
+                <p class="text-lg leading-relaxed text-gray-600">O preconceito de idade muitas vezes se manifesta disfarçado em comentários corriqueiros ou crenças infundadas. Esta seção expõe a ciência por trás de nossos vieses e revela o verdadeiro significado de frases comuns. <strong>Clique nos cartões abaixo para revelar o preconceito oculto.</strong></p>
+            </header>
+
+            <div class="mb-12">
+                <h4 class="text-2xl font-serif font-bold mb-6 text-primary-dark">O Cotidiano: Frases Excludentes</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 h-64 md:h-48">
+                    
+                    <div class="flip-card cursor-pointer" onclick="this.classList.toggle('active')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <span class="text-3xl mb-2">🚌</span>
+                                <p class="text-lg font-serif italic text-gray-700 text-center">"Nessa idade, para que a pressa de pegar o ônibus? Devia ficar em casa descansando."</p>
+                                <span class="text-xs text-primary font-bold uppercase tracking-wide mt-4">Clique para revelar</span>
+                            </div>
+                            <div class="flip-card-back">
+                                <h5 class="font-bold text-base-text mb-2">A Exclusão Disfarçada de Cuidado</h5>
+                                <p class="text-sm text-gray-700 text-center">Retira a autonomia, o protagonismo e o direito básico do idoso de ocupar o espaço urbano e ter seus próprios compromissos.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flip-card cursor-pointer" onclick="this.classList.toggle('active')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <span class="text-3xl mb-2">💼</span>
+                                <p class="text-lg font-serif italic text-gray-700 text-center">"Essa juventude de hoje em dia não quer saber de nada sério, só vive nas redes sociais."</p>
+                                <span class="text-xs text-primary font-bold uppercase tracking-wide mt-4">Clique para revelar</span>
+                            </div>
+                            <div class="flip-card-back">
+                                <h5 class="font-bold text-base-text mb-2">Desvalorização Automática</h5>
+                                <p class="text-sm text-gray-700 text-center">Em vez de avaliar competências, rotula-se a geração como alienada, desvalorizando como eles se comunicam, trabalham e inovam no ambiente digital.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                <h4 class="text-2xl font-serif font-bold mb-6 text-primary-dark">A Ciência por trás do Mito</h4>
+                
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="flex-1 p-6 bg-base-bg rounded-xl">
+                        <h5 class="font-bold text-lg mb-2 flex items-center gap-2"><span>🧠</span> O Mito da Juventude Perdida</h5>
+                        <p class="text-sm text-gray-600 mb-4">Adultos tendem a criticar os comportamentos das novas gerações. Estudos da <em>Science Advances</em> provam que isso é um <strong>viés cognitivo de memória</strong>. Adultos projetam seu eu atual (maduro) no passado e esquecem como agiam aos 15 anos, criando a falsa ilusão de piora.</p>
+                    </div>
+                    
+                    <div class="flex-1 p-6 bg-base-bg rounded-xl">
+                        <h5 class="font-bold text-lg mb-2 flex items-center gap-2"><span>🔄</span> O Mito do Preconceito Unidirecional</h5>
+                        <p class="text-sm text-gray-600 mb-4">Ocorre o <strong>etarismo intrageracional</strong>. Idosos criticam seus próprios pares por não agirem conforme "esperado" (ex: roupas ou carreira). Jovens cobram metas rígidas de sucesso uns dos outros precocemente. A idade oprime dentro da própria geração.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-futuro" class="view-section hidden animate-fade-in">
+            <header class="mb-10">
+                <h2 class="text-sm uppercase tracking-widest text-primary font-bold mb-2">Soluções</h2>
+                <h3 class="text-4xl md:text-5xl font-serif font-bold text-base-text mb-6">Caminhos para o Futuro</h3>
+                <p class="text-lg leading-relaxed text-gray-600">Construir um futuro sem preconceito depende de posturas ativas. Interaja com os pilares abaixo para compreender os papéis fundamentais de cada geração na garantia da autonomia financeira, física e social.</p>
+            </header>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <div class="group relative bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-accent rounded-bl-full -z-10 group-hover:scale-150 transition-transform duration-500 opacity-50"></div>
+                    <div class="text-5xl mb-6">💡</div>
+                    <h4 class="text-2xl font-serif font-bold mb-4">O Papel do Jovem</h4>
+                    <h5 class="text-sm font-bold text-primary uppercase tracking-wide mb-4">Preparação e Autonomia</h5>
+                    <ul class="space-y-4 text-gray-600">
+                        <li class="flex items-start">
+                            <span class="mr-2 text-primary">✔</span>
+                            <span><strong>Consciência Contínua:</strong> O envelhecimento começa na juventude, especialmente com a alta expectativa de vida atual.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-2 text-primary">✔</span>
+                            <span><strong>Saúde e Finanças:</strong> Desenvolver competências, cuidar da saúde física e planejar financeiramente desde cedo garante liberdade de escolha.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-2 text-primary">✔</span>
+                            <span><strong>Liberdade de Escolha:</strong> A capacitação permite decidir, na velhice, se deseja continuar trabalhando, minimizando a vulnerabilidade ao etarismo.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="group relative bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-primary rounded-bl-full -z-10 group-hover:scale-150 transition-transform duration-500 opacity-10"></div>
+                    <div class="text-5xl mb-6">💼</div>
+                    <h4 class="text-2xl font-serif font-bold mb-4">O Papel do Idoso</h4>
+                    <h5 class="text-sm font-bold text-primary uppercase tracking-wide mb-4">Adaptação e Empreendedorismo</h5>
+                    <ul class="space-y-4 text-gray-600">
+                        <li class="flex items-start">
+                            <span class="mr-2 text-primary">✔</span>
+                            <span><strong>Resiliência Ativa:</strong> O mercado tradicional frequentemente fecha portas. O envelhecimento ativo torna-se um exercício de resiliência.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-2 text-primary">✔</span>
+                            <span><strong>Empreendedorismo Sênior:</strong> Criar o próprio negócio não é apenas desejo, mas necessidade de adaptação, transformando experiência em estrutura própria.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-2 text-primary">✔</span>
+                            <span><strong>Protagonismo:</strong> Consultorias e comércio local permitem contornar processos seletivos excludentes e assumir o controle da própria relevância social.</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Data and State
+        let chartInstance = null;
+        const appState = {
+            currentView: 'cenario',
+            currentFace: 'idosos'
+        };
+
+        // Navigation Logic
+        function nav(targetView) {
+            // Hide all
+            document.querySelectorAll('.view-section').forEach(el => {
+                el.classList.add('hidden');
+            });
+            // Reset Nav styling
+            document.querySelectorAll('.nav-btn').forEach(el => {
+                el.classList.remove('bg-accent', 'text-primary-dark', 'font-medium');
+                el.classList.add('hover:bg-gray-100');
+            });
+
+            // Show Target
+            document.getElementById(`sec-${targetView}`).classList.remove('hidden');
+            
+            // Highlight Nav
+            const btn = document.getElementById(`nav-${targetView}`);
+            btn.classList.add('bg-accent', 'text-primary-dark', 'font-medium');
+            btn.classList.remove('hover:bg-gray-100');
+
+            appState.currentView = targetView;
+
+            // Trigger animations/chart rendering if needed
+            if(targetView === 'cenario' && !chartInstance) {
+                initChart();
+            }
+        }
+
+        // Faces Toggle Logic
+        function toggleFace(face) {
+            // Reset contents
+            document.querySelectorAll('.face-content').forEach(el => {
+                el.classList.add('hidden');
+            });
+            
+            // Reset buttons
+            document.getElementById('btn-idosos').className = "px-8 py-4 bg-white text-gray-600 border border-gray-200 font-bold rounded-full shadow-sm transition-transform transform hover:scale-105 hover:bg-gray-50";
+            document.getElementById('btn-jovens').className = "px-8 py-4 bg-white text-gray-600 border border-gray-200 font-bold rounded-full shadow-sm transition-transform transform hover:scale-105 hover:bg-gray-50";
+
+            // Activate Target
+            document.getElementById(`content-${face}`).classList.remove('hidden');
+            document.getElementById(`btn-${face}`).className = "px-8 py-4 bg-primary text-white font-bold rounded-full shadow-md transition-transform transform hover:scale-105";
+        }
+
+        // Chart.js Initialization
+        function initChart() {
+            const ctx = document.getElementById('lifeExpectancyChart').getContext('2d');
+            
+            // Data based on context (IBGE, 2024 = 76.6)
+            const labels = ['1950', '1980', '2010', '2024', '2050 (Proj.)'];
+            const data = [45.5, 62.5, 73.5, 76.6, 81.3]; 
+
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Expectativa de Vida (Anos)',
+                        data: data,
+                        borderColor: '#C2A892',
+                        backgroundColor: 'rgba(194, 168, 146, 0.2)',
+                        borderWidth: 3,
+                        pointBackgroundColor: '#8A7968',
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(45, 45, 45, 0.9)',
+                            titleFont: { family: 'Inter', size: 13 },
+                            bodyFont: { family: 'Inter', size: 14, weight: 'bold' },
+                            padding: 12,
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.parsed.y + ' Anos de Vida';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 40,
+                            max: 90,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                font: { family: 'Inter' }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: { family: 'Inter', weight: 'bold' }
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
+                    },
+                }
+            });
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            initChart();
+        });
+    </script>
+</body>
+</html>

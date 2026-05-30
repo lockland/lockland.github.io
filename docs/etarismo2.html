@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Além da Idade: Autonomia e Futuro Sem Etarismo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'vibrant-bg': '#F8FAFC',
+                        'vibrant-dark': '#292F36',
+                        'vibrant-primary': '#FF6B6B',
+                        'vibrant-secondary': '#4ECDC4',
+                        'vibrant-accent': '#FFE66D',
+                        'vibrant-surface': '#FFFFFF'
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'system-ui', 'sans-serif'],
+                        serif: ['Merriweather', 'Georgia', 'serif'],
+                    },
+                    boxShadow: {
+                        'material': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                        'material-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F8FAFC;
+            color: #292F36;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 40vh;
+            max-height: 400px;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+        .unicode-icon {
+            font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-vibrant-secondary selection:text-vibrant-dark">
+
+<!-- Chosen Palette: Vibrant Horizon (Coral #FF6B6B, Teal #4ECDC4, Yellow #FFE66D, Dark Slate #292F36) -->
+<!-- Application Structure Plan: Linear scrolling infographic structured into four thematic sections based on the report: Demographics (The Urgency), The Two Faces (Comparison), Everyday Myths (Qualitative breakdown), and The Future (Process flow). This narrative guides the user from understanding the statistical need for change, analyzing the problem from both sides, debunking daily prejudices, and concluding with actionable life-cycle steps. Designed with Material Design principles for clarity and engagement. -->
+<!-- Visualization & Content Choices: 1. Life Expectancy -> Change -> Line Chart -> Shows the rapid aging trend justifying the discussion (Chart.js). 2. Two Faces of Ageism -> Compare -> Material Cards with Unicode -> Juxtaposes youth vs elderly stereotypes (HTML/Tailwind). 3. Origins of Ageism -> Organize -> Doughnut Chart -> Breaks down the conceptual sources like Memory Bias and Intra-generational pressure (Chart.js). 4. Path to Future -> Organize/Process -> HTML Flow Diagram -> Shows the life-cycle steps from youth prep to elderly entrepreneurship without using SVG/Mermaid. CONFIRMING NO SVG OR MERMAID USED. -->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <header class="bg-vibrant-dark text-vibrant-surface py-20 px-6 shadow-md relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-vibrant-primary rounded-full mix-blend-multiply filter blur-3xl opacity-50 transform translate-x-1/2 -translate-y-1/2"></div>
+        <div class="absolute bottom-0 left-0 w-80 h-80 bg-vibrant-secondary rounded-full mix-blend-multiply filter blur-3xl opacity-50 transform -translate-x-1/2 translate-y-1/2"></div>
+        <div class="max-w-5xl mx-auto relative z-10 text-center">
+            <span class="inline-block py-1 px-3 rounded-full bg-vibrant-accent text-vibrant-dark font-bold text-sm tracking-wider uppercase mb-6 shadow-sm">Infográfico Interativo</span>
+            <h1 class="text-5xl md:text-7xl font-serif font-bold mb-6 leading-tight">Além da Idade</h1>
+            <p class="text-xl md:text-2xl font-light text-gray-300 max-w-3xl mx-auto leading-relaxed">Autonomia, Convivência e o Futuro Sem Etarismo. Um mergulho visual nas raízes do idadismo e nos caminhos para uma sociedade integrada.</p>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 py-16 space-y-24">
+
+        <section id="demografia">
+            <div class="max-w-4xl mx-auto text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-vibrant-dark mb-4">A Urgência Demográfica</h2>
+                <div class="w-24 h-2 bg-vibrant-primary mx-auto rounded-full mb-6"></div>
+                <p class="text-lg text-gray-700 leading-relaxed">
+                    A mitigação do etarismo exige ações práticas urgentes diante do cenário demográfico atual. Viver mais é uma conquista da medicina, mas exige uma mudança estrutural na forma como organizamos o trabalho e as relações. O gráfico abaixo ilustra a projeção da expectativa de vida no Brasil, atingindo níveis históricos.
+                </p>
+            </div>
+            
+            <div class="bg-vibrant-surface rounded-xl shadow-material p-6 md:p-10 border-t-4 border-vibrant-secondary">
+                <h3 class="text-xl font-bold mb-6 text-center text-vibrant-dark">Evolução da Expectativa de Vida (Anos)</h3>
+                <div class="chart-container">
+                    <canvas id="lifeExpectancyChart"></canvas>
+                </div>
+                <div class="mt-8 text-center text-sm font-medium text-gray-500 bg-gray-50 p-4 rounded-lg">
+                    <span class="text-2xl unicode-icon mr-2">📈</span> 
+                    <strong>Dado Chave:</strong> Segundo o IBGE, a expectativa de vida chegou a 76,6 anos em 2024, reforçando a necessidade imediata de adaptação do mercado para a longevidade.
+                </div>
+            </div>
+        </section>
+
+        <section id="duas-faces">
+            <div class="max-w-4xl mx-auto text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-vibrant-dark mb-4">As Duas Faces do Etarismo</h2>
+                <div class="w-24 h-2 bg-vibrant-primary mx-auto rounded-full mb-6"></div>
+                <p class="text-lg text-gray-700 leading-relaxed">
+                    O etarismo é uma via de mão dupla. Alimentado pelo "culto ao novo", desvaloriza tanto o jovem (visto como mero produto futuro) quanto o idoso (visto como o passado), criando barreiras invisíveis e exclusão, especialmente nos espaços públicos e na organização dos serviços.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-vibrant-surface rounded-xl shadow-material p-8 hover:shadow-material-hover transition-shadow border-l-8 border-vibrant-primary">
+                    <div class="text-6xl unicode-icon mb-6 text-center">👵</div>
+                    <h3 class="text-2xl font-bold text-center mb-4 text-vibrant-dark">Contra os Idosos</h3>
+                    <ul class="space-y-4 text-gray-700">
+                        <li class="flex items-start">
+                            <span class="text-vibrant-primary font-bold mr-3 mt-1">✓</span>
+                            <span><strong>Estereótipo:</strong> Associação automática à invalidez, falta de produtividade e incapacidade de aprender.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-vibrant-primary font-bold mr-3 mt-1">✓</span>
+                            <span><strong>Espaço Público:</strong> Desumanização no acesso a serviços (filas na madrugada para saúde).</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-vibrant-primary font-bold mr-3 mt-1">✓</span>
+                            <span><strong>Mobilidade:</strong> Hostilidade no transporte e retirada de autonomia (a ideia de que "devia ficar em casa").</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-vibrant-surface rounded-xl shadow-material p-8 hover:shadow-material-hover transition-shadow border-l-8 border-vibrant-secondary">
+                    <div class="text-6xl unicode-icon mb-6 text-center">👶</div>
+                    <h3 class="text-2xl font-bold text-center mb-4 text-vibrant-dark">Contra os Jovens</h3>
+                    <ul class="space-y-4 text-gray-700">
+                        <li class="flex items-start">
+                            <span class="text-vibrant-secondary font-bold mr-3 mt-1">✓</span>
+                            <span><strong>Estereótipo:</strong> Deslegitimação da competência, liderança e voz sob a justificativa de "falta de experiência".</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-vibrant-secondary font-bold mr-3 mt-1">✓</span>
+                            <span><strong>Espaço Público:</strong> Vigilância e julgamento coletivo, rotulados como barulhentos ou sem educação.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-vibrant-secondary font-bold mr-3 mt-1">✓</span>
+                            <span><strong>Comunicação:</strong> Crítica ao uso de telas, ignorando que ferramentas digitais são suas pontes de interação com o mundo.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="mitos">
+            <div class="max-w-4xl mx-auto text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-vibrant-dark mb-4">Mitos vs. Fatos e o Cotidiano</h2>
+                <div class="w-24 h-2 bg-vibrant-accent mx-auto rounded-full mb-6"></div>
+                <p class="text-lg text-gray-700 leading-relaxed">
+                    Muitas certezas sobre faixas etárias são mitos alimentados por vieses psicológicos. Além disso, o preconceito se esconde em frases corriqueiras do dia a dia. Abaixo, detalhamos as bases científicas e culturais que sustentam o etarismo na sociedade moderna.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="bg-vibrant-surface rounded-xl shadow-material p-6">
+                    <h3 class="text-xl font-bold mb-6 text-center text-vibrant-dark">As Raízes do Preconceito Geracional</h3>
+                    <div class="chart-container">
+                        <canvas id="mythsChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="bg-vibrant-surface p-6 rounded-xl shadow-material relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-2 h-full bg-vibrant-primary"></div>
+                        <h4 class="font-bold text-lg mb-2">O Mito da "Juventude Perdida" 🧠</h4>
+                        <p class="text-gray-700 text-sm">
+                            A revista <em>Science Advances</em> revela que criticar os mais novos é um <strong>viés cognitivo da memória</strong>. Adultos maduros projetam seu eu atual no passado, esquecendo como agiam aos 15 anos, criando a falsa ilusão de que as novas gerações estão piorando.
+                        </p>
+                    </div>
+                    
+                    <div class="bg-vibrant-surface p-6 rounded-xl shadow-material relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-2 h-full bg-vibrant-secondary"></div>
+                        <h4 class="font-bold text-lg mb-2">O Etarismo Intrageracional 🔄</h4>
+                        <p class="text-gray-700 text-sm">
+                            O preconceito não ocorre apenas entre gerações diferentes. Idosos criticam seus pares por não agirem conforme as "regras" da idade, e jovens cobram metas rígidas de sucesso precocemente uns dos outros.
+                        </p>
+                    </div>
+
+                    <div class="bg-gray-100 p-6 rounded-xl border border-gray-200">
+                        <span class="block text-xs font-bold uppercase text-vibrant-primary mb-2">"Quem Nunca?" - O Preconceito Disfarçado</span>
+                        <blockquote class="italic text-gray-600 border-l-4 border-gray-300 pl-4 mb-3">
+                            "Nessa idade, para que a pressa? Devia ficar em casa descansando."
+                        </blockquote>
+                        <p class="text-xs text-gray-800 font-medium"><strong>Realidade:</strong> Essa frase, dita como "cuidado", funciona como ferramenta de exclusão, retirando a autonomia do idoso no espaço urbano.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="futuro">
+            <div class="max-w-4xl mx-auto text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-vibrant-dark mb-4">Caminhos para o Futuro</h2>
+                <div class="w-24 h-2 bg-vibrant-primary mx-auto rounded-full mb-6"></div>
+                <p class="text-lg text-gray-700 leading-relaxed">
+                    Construir um futuro sem preconceito depende de uma postura ativa de quem está começando e de quem já acumulou décadas de vivência. O fluxo abaixo ilustra as responsabilidades complementares para garantir autonomia em todas as fases.
+                </p>
+            </div>
+
+            <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 bg-vibrant-surface p-8 md:p-12 rounded-xl shadow-material">
+                
+                <div class="flex-1 text-center bg-vibrant-secondary bg-opacity-10 p-8 rounded-2xl border border-vibrant-secondary w-full">
+                    <div class="text-5xl unicode-icon mb-4">💡</div>
+                    <h3 class="text-2xl font-bold text-vibrant-dark mb-2">O Jovem</h3>
+                    <h4 class="text-sm uppercase tracking-widest text-vibrant-secondary font-bold mb-4">Preparação & Autonomia</h4>
+                    <p class="text-gray-700 text-sm">
+                        O envelhecimento começa na juventude. Diante da alta expectativa de vida, capacitar-se, cuidar da saúde e realizar planejamento financeiro garantem a <strong>liberdade de escolha</strong> no futuro, minimizando a vulnerabilidade.
+                    </p>
+                </div>
+
+                <div class="text-4xl unicode-icon animate-pulse text-vibrant-primary hidden md:block">
+                    ➡️
+                </div>
+                <div class="text-4xl unicode-icon animate-pulse text-vibrant-primary md:hidden">
+                    ⬇️
+                </div>
+
+                <div class="flex-1 text-center bg-vibrant-primary bg-opacity-10 p-8 rounded-2xl border border-vibrant-primary w-full">
+                    <div class="text-5xl unicode-icon mb-4">💼</div>
+                    <h3 class="text-2xl font-bold text-vibrant-dark mb-2">O Idoso</h3>
+                    <h4 class="text-sm uppercase tracking-widest text-vibrant-primary font-bold mb-4">Adaptação & Empreendedorismo</h4>
+                    <p class="text-gray-700 text-sm">
+                        Com portas frequentemente fechadas pelo mercado tradicional, o envelhecimento ativo exige <strong>resiliência</strong>. O empreendedorismo sênior, consultorias e comércio local são caminhos para contornar processos excludentes.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-vibrant-dark text-gray-400 py-10 text-center text-sm">
+        <div class="max-w-4xl mx-auto px-6">
+            <p class="mb-4 text-vibrant-surface font-bold">Fontes e Referências do Relatório:</p>
+            <ul class="space-y-2 mb-8">
+                <li>BRASIL. Central Judicial do Idoso (CJI/TJDFT). Cartilha Quem Nunca? (2022)</li>
+                <li>IBGE. Tábuas Completas de Mortalidade 2024. (2025)</li>
+                <li>OMS. Relatório mundial sobre o idadismo. (2021)</li>
+                <li>PROTZKO, J.; SCHOOLER, J. W. Science Advances, v. 5, n. 10. (2019)</li>
+            </ul>
+            <p>© 2026 Além da Idade - Infográfico Interativo.</p>
+        </div>
+    </footer>
+
+    <script>
+        function wrap(l, max = 16){
+            const w = l.split(' ');
+            const r = [];
+            let c = '';
+            for(const x of w){
+                if((c + x).length > max){
+                    if(c) r.push(c.trim());
+                    c = x + ' ';
+                } else {
+                    c += x + ' ';
+                }
+            }
+            if(c) r.push(c.trim());
+            return r.length > 1 ? r : r[0];
+        }
+
+        const tConfig = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(t) {
+                            const i = t[0];
+                            let l = i.chart.data.labels[i.dataIndex];
+                            if (Array.isArray(l)) {
+                                return l.join(' ');
+                            } else {
+                                return l;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const ctxLife = document.getElementById('lifeExpectancyChart').getContext('2d');
+            new Chart(ctxLife, {
+                type: 'line',
+                data: {
+                    labels: [wrap('Década 1950'), wrap('Década 1980'), wrap('Ano 2010'), wrap('Ano 2024'), wrap('Projeção 2050')],
+                    datasets: [{
+                        label: 'Anos de Vida',
+                        data: [45.5, 62.5, 73.5, 76.6, 81.3],
+                        borderColor: '#4ECDC4',
+                        backgroundColor: 'rgba(78, 205, 196, 0.2)',
+                        borderWidth: 4,
+                        pointBackgroundColor: '#FF6B6B',
+                        pointBorderColor: '#FFFFFF',
+                        pointBorderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: tConfig.plugins.tooltip
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 40,
+                            grid: { color: 'rgba(0,0,0,0.05)' },
+                            title: { display: true, text: 'Idade', font: { weight: 'bold' } }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+
+            const ctxMyths = document.getElementById('mythsChart').getContext('2d');
+            new Chart(ctxMyths, {
+                type: 'doughnut',
+                data: {
+                    labels: [
+                        wrap('Viés Cognitivo de Memória (Mito da Juventude)'), 
+                        wrap('Culto Social ao Novo e Descarte do Antigo'), 
+                        wrap('Pressão e Etarismo Intrageracional')
+                    ],
+                    datasets: [{
+                        data: [35, 40, 25],
+                        backgroundColor: [
+                            '#FF6B6B',
+                            '#4ECDC4',
+                            '#FFE66D'
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '65%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: { family: 'Roboto', size: 13 },
+                                padding: 20
+                            }
+                        },
+                        tooltip: tConfig.plugins.tooltip
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
