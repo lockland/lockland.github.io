@@ -1,0 +1,44 @@
+:root {
+  --fundo: #fff7ef;
+  --texto: #1d1a17;
+  --muted: #5c534c;
+  --acento: #e23d5b;
+  --linha: #1d1a17;
+  --fonte-titulo: "Outfit", "Trebuchet MS", sans-serif;
+  --fonte-corpo: "Outfit", "Trebuchet MS", sans-serif;
+  --largura: 68rem;
+}
+
+.produtos {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.8rem;
+}
+
+.produto {
+  display: block;
+  margin: 0;
+  padding: 1rem 1.1rem 1.05rem;
+  border-radius: 1.15rem;
+  background: #ffe08a;
+}
+
+.produto[data-categoria="doces"] { background: #ffb3c7; }
+.produto[data-categoria="bebidas"] { background: #9ad7ff; }
+.produto[data-categoria="almocos"] { background: #b6e3a8; }
+
+.traco { display: none; }
+
+.preco {
+  margin-top: 0.35rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.descricao { margin-top: 0.35rem; }
+
+.grupo h2 { font-size: 1.6rem; }
+
+@media (min-width: 700px) {
+  .produtos { grid-template-columns: 1fr 1fr; }
+}

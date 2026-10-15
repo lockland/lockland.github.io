@@ -1,0 +1,12 @@
+:root {
+  --fundo: #f4efe6;
+  --texto: #2c2416;
+  --muted: #6e6256;
+  --acento: #7a3b2e;
+  --linha: #c4b7a6;
+  --fonte-titulo: "Fraunces", Georgia, serif;
+  --fonte-corpo: "Source Sans 3", "Segoe UI", sans-serif;
+  --largura: 40rem;
+}
+
+.preco { color: var(--acento); }

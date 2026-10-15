@@ -1,0 +1,23 @@
+:root {
+  --fundo: #f3e2c8;
+  --texto: #3e2918;
+  --muted: #6d4c32;
+  --acento: #8f2d2a;
+  --linha: #b88962;
+  --fonte-titulo: "Caveat", cursive;
+  --fonte-corpo: "Fraunces", Georgia, serif;
+  --largura: 42rem;
+}
+
+body {
+  background-image: radial-gradient(rgba(120, 72, 32, 0.08) 0.7px, transparent 0.7px);
+  background-size: 7px 7px;
+}
+
+.grupo h2 {
+  font-size: clamp(2.2rem, 6vw, 3rem);
+  color: var(--acento);
+  font-weight: 600;
+}
+
+.traco { border-bottom-style: solid; border-bottom-color: var(--linha); }

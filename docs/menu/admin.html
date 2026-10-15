@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Administração do cardápio</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="css/admin.css">
+  </head>
+  <body>
+    <header class="topo">
+      <h1>Administração do cardápio</h1>
+      <nav class="atalhos-cardapio">
+        <a href="index.html?preview=1">Ver prévia</a>
+        <a href="index.html">Ver publicado</a>
+      </nav>
+    </header>
+    <main>
+      <p id="status" role="status"></p>
+      <noscript><p>A administração precisa de JavaScript para gravar os dados neste navegador.</p></noscript>
+
+      <section>
+        <h2>Lojas</h2>
+        <form id="formulario-loja">
+          <input type="hidden" name="id">
+          <label>Nome
+            <input name="nome" required autocomplete="organization">
+          </label>
+          <label>Logomarca
+            <input name="logomarca" type="file" accept="image/*">
+          </label>
+          <img id="previa-logomarca" alt="Logomarca atual" hidden>
+          <fieldset>
+            <legend>Horário</legend>
+            <div class="par">
+              <label>Abertura
+                <input name="abertura" type="time">
+              </label>
+              <label>Fechamento
+                <input name="fechamento" type="time">
+              </label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Dias da semana</legend>
+            <div class="dias">
+              <label><input type="checkbox" name="dias" value="segunda">Segunda</label>
+              <label><input type="checkbox" name="dias" value="terca">Terça</label>
+              <label><input type="checkbox" name="dias" value="quarta">Quarta</label>
+              <label><input type="checkbox" name="dias" value="quinta">Quinta</label>
+              <label><input type="checkbox" name="dias" value="sexta">Sexta</label>
+              <label><input type="checkbox" name="dias" value="sabado">Sábado</label>
+              <label><input type="checkbox" name="dias" value="domingo">Domingo</label>
+            </div>
+          </fieldset>
+          <label>Telefone com código do país
+            <input name="telefone" inputmode="tel" autocomplete="tel" placeholder="5511999999999">
+          </label>
+          <label>Endereço
+            <input name="endereco" autocomplete="street-address">
+          </label>
+          <label>Link do Maps
+            <input name="maps" type="url" placeholder="https://maps.google.com/?q=">
+          </label>
+          <div class="acoes">
+            <button type="submit">Salvar loja</button>
+            <button id="limpar-loja" type="button">Limpar</button>
+          </div>
+        </form>
+        <p id="erro-loja" class="erro" role="alert"></p>
+        <ul id="lista-lojas" class="lista"></ul>
+      </section>
+
+      <section>
+        <div class="secao-cabecalho">
+          <h2>Produtos</h2>
+          <button id="adicionar-produto" type="button">Adicionar produto</button>
+        </div>
+        <ul id="lista-produtos" class="lista"></ul>
+      </section>
+
+      <dialog id="modal-produto" aria-labelledby="titulo-modal-produto">
+        <form id="formulario-produto">
+          <h2 id="titulo-modal-produto">Adicionar produto</h2>
+          <input type="hidden" name="id">
+          <label>Nome
+            <input name="nome" required>
+          </label>
+          <label>Descrição
+            <textarea name="descricao" rows="3"></textarea>
+          </label>
+          <label>Preço
+            <input name="preco" inputmode="decimal" required placeholder="12,50">
+          </label>
+          <label>Categoria
+            <select name="categoria" required>
+              <option value="salgados">Salgados</option>
+              <option value="doces">Doces</option>
+              <option value="bebidas">Bebidas</option>
+              <option value="almocos">Almoços</option>
+            </select>
+          </label>
+          <label class="check">
+            <input name="visivel" type="checkbox">
+            Mostrar no cardápio
+          </label>
+          <p id="erro-produto" class="erro" role="alert"></p>
+          <div class="acoes">
+            <button type="submit">Salvar produto</button>
+            <button id="cancelar-produto" type="button">Cancelar</button>
+          </div>
+        </form>
+      </dialog>
+
+      <section>
+        <h2>Importar CSV</h2>
+        <p>Colunas: <code>nome;descricao;preco;visivel;categoria</code>. A importação grava no navegador e deixa o arquivo publicado como está.</p>
+        <form id="formulario-csv">
+          <label>Arquivo
+            <input name="arquivo" type="file" accept=".csv,text/csv">
+          </label>
+          <button type="submit">Importar</button>
+        </form>
+        <p id="erro-csv" class="erro" role="alert"></p>
+        <ul id="erros-csv" class="lista"></ul>
+      </section>
+
+      <section>
+        <h2>Tema</h2>
+        <form id="formulario-tema">
+          <label><input type="radio" name="tema" value="claro" checked>Claro editorial</label>
+          <label><input type="radio" name="tema" value="escuro">Escuro</label>
+          <label><input type="radio" name="tema" value="rustico">Rústico</label>
+          <label><input type="radio" name="tema" value="vibrante">Vibrante</label>
+          <p>Tema selecionado: <strong id="tema-selecionado">claro</strong></p>
+        </form>
+        <p id="erro-tema" class="erro" role="alert"></p>
+      </section>
+
+      <section>
+        <h2>Publicar</h2>
+        <p>O botão baixa <code>database.json</code> com a loja em uso, o tema e os produtos visíveis. Substitua <code>docs/menu/data/database.json</code> no repositório para os outros aparelhos verem o cardápio.</p>
+        <button id="publicar" type="button">Publicar</button>
+        <p id="erro-publicacao" class="erro" role="alert"></p>
+      </section>
+    </main>
+    <script type="module" src="js/admin/admin-page.js"></script>
+  </body>
+</html>
