@@ -1,6 +1,5 @@
 import { productsByCategory } from "../domain/product.js"
 import { formatPrice } from "../domain/price.js"
-import { formatSchedule } from "../domain/schedule.js"
 import { imageSource } from "../domain/image-source.js"
 import { safeHttpUrl } from "../domain/http-url.js"
 import { resolveTheme } from "../domain/themes.js"
@@ -33,7 +32,7 @@ function setPrintAvailable(document, available) {
 }
 
 function renderEmptyMenu(document, messageText) {
-  document.querySelector("#cabecalho").replaceChildren()
+  document.querySelector("#marca").replaceChildren()
   document.querySelector("#categorias").replaceChildren()
   document.querySelector("#categorias").hidden = true
   document.querySelector("#rodape").replaceChildren()
@@ -47,7 +46,8 @@ function renderEmptyMenu(document, messageText) {
 }
 
 function renderHeader(container, store) {
-  container.replaceChildren()
+  const brand = container.querySelector("#marca")
+  brand.replaceChildren()
   if (!store) return
 
   const source = imageSource(store.logomarca)
@@ -55,22 +55,14 @@ function renderHeader(container, store) {
     const image = document.createElement("img")
     image.src = source
     image.alt = store.nome ? `Logomarca de ${store.nome}` : "Logomarca"
-    container.append(image)
+    brand.append(image)
   }
 
   if (store.nome) {
     const title = document.createElement("h1")
     title.textContent = store.nome
-    container.append(title)
+    brand.append(title)
   }
-
-  const schedule = formatSchedule(store)
-  if (!schedule) return
-
-  const paragraph = document.createElement("p")
-  paragraph.className = "horario"
-  paragraph.textContent = schedule
-  container.append(paragraph)
 }
 
 function renderCategories(nav, products) {

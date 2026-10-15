@@ -1,4 +1,6 @@
 import { categoryLabel } from "../domain/categories.js"
+import { safeHttpUrl } from "../domain/http-url.js"
+import { imageSource } from "../domain/image-source.js"
 import { formatPrice } from "../domain/price.js"
 import { productsInListOrder } from "../domain/product.js"
 
@@ -11,20 +13,64 @@ export function renderStoreList(list, stores, handlers) {
 
   stores.forEach(store => {
     const item = document.createElement("li")
-    const name = document.createElement("span")
-    name.className = "nome"
-    name.textContent = store.nome
-    item.append(name)
+    item.className = "item-loja"
+    item.append(storePreview(store))
 
-    if (store.emUso) item.append(badge("Em uso"))
-
-    item.append(
+    const actions = document.createElement("div")
+    actions.className = "acoes-item"
+    if (store.emUso) actions.append(badge("Em uso"))
+    actions.append(
       actionButton("Editar", () => handlers.edit(store)),
       actionButton("Colocar em uso", () => handlers.use(store), store.emUso),
       actionButton("Excluir", () => handlers.remove(store)),
     )
+    item.append(actions)
     list.append(item)
   })
+}
+
+function storePreview(store) {
+  const preview = document.createElement("div")
+  preview.className = "previa-loja"
+
+  const source = imageSource(store.logomarca)
+  if (source) {
+    const image = document.createElement("img")
+    image.src = source
+    image.alt = store.nome ? `Logomarca de ${store.nome}` : "Logomarca"
+    preview.append(image)
+  }
+
+  const name = document.createElement("p")
+  name.className = "nome"
+  name.textContent = store.nome
+  preview.append(name)
+
+  if (store.telefone) {
+    const phone = document.createElement("p")
+    phone.className = "detalhe"
+    phone.textContent = store.telefone
+    preview.append(phone)
+  }
+
+  const maps = safeHttpUrl(store.maps)
+  if (store.endereco || maps) {
+    const address = document.createElement("p")
+    address.className = "detalhe"
+    if (maps) {
+      const link = document.createElement("a")
+      link.href = maps
+      link.target = "_blank"
+      link.rel = "noopener noreferrer"
+      link.textContent = store.endereco || maps
+      address.append(link)
+    } else {
+      address.textContent = store.endereco
+    }
+    preview.append(address)
+  }
+
+  return preview
 }
 
 export function renderProductList(list, products, handlers) {

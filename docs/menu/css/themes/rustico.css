@@ -7,6 +7,7 @@
   --fonte-titulo: "Caveat", cursive;
   --fonte-corpo: "Fraunces", Georgia, serif;
   --largura: 42rem;
+  --titulo-cabecalho: #5c3824;
 }
 
 body {

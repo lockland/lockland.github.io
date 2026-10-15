@@ -53,7 +53,7 @@ section {
   margin: 1rem 0;
 }
 
-form, label, .par { display: grid; gap: 0.4rem; }
+form, label { display: grid; gap: 0.4rem; }
 
 label { font-weight: 600; }
 
@@ -72,32 +72,23 @@ input, select, textarea {
 
 textarea { min-height: 6rem; resize: vertical; }
 
-fieldset {
-  margin: 0;
-  padding: 0.75rem;
-  border: 1px solid #e4d9cc;
-  border-radius: 0.75rem;
-}
-
-.dias, .acoes, #formulario-tema {
+.acoes, #formulario-tema {
   display: flex;
   flex-wrap: wrap;
   gap: 0.6rem 1rem;
 }
 
-.dias label, .check, #formulario-tema label {
+.check, #formulario-tema label {
   display: flex;
   align-items: center;
   gap: 0.4rem;
   font-weight: 500;
 }
 
-.dias input, .check input, #formulario-tema input {
+.check input, #formulario-tema input {
   width: auto;
   min-height: 1.1rem;
 }
-
-.par { grid-template-columns: 1fr; }
 
 .acoes button, #publicar, #formulario-csv button {
   background: #7a3b2e;
@@ -110,7 +101,7 @@ fieldset {
 
 button[type="button"] { background: #5c534c; }
 
-#adicionar-produto {
+#adicionar-produto, #adicionar-loja {
   background: #7a3b2e;
   color: #fff;
   border: 0;
@@ -119,7 +110,7 @@ button[type="button"] { background: #5c534c; }
   cursor: pointer;
 }
 
-#modal-produto {
+#modal-produto, #modal-loja {
   width: min(calc(100% - 2rem), 36rem);
   max-height: calc(100% - 2rem);
   overflow: auto;
@@ -130,9 +121,9 @@ button[type="button"] { background: #5c534c; }
   color: inherit;
 }
 
-#modal-produto::backdrop { background: rgba(36, 31, 26, 0.5); }
+#modal-produto::backdrop, #modal-loja::backdrop { background: rgba(36, 31, 26, 0.5); }
 
-#modal-produto h2 { margin: 0 0 0.8rem; }
+#modal-produto h2, #modal-loja h2 { margin: 0 0 0.8rem; }
 
 #previa-logomarca {
   max-width: 8rem;
@@ -149,6 +140,41 @@ button[type="button"] { background: #5c534c; }
   align-items: center;
   padding: 0.7rem 0;
   border-top: 1px solid #eee4d8;
+}
+
+.lista li.item-loja {
+  display: grid;
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.previa-loja {
+  display: grid;
+  justify-items: start;
+  gap: 0.2rem;
+  border: 1px solid #eee4d8;
+  border-radius: 0.75rem;
+  padding: 0.9rem 1rem;
+  background: #fff;
+}
+
+.previa-loja img {
+  max-width: 7rem;
+  max-height: 4.5rem;
+  object-fit: contain;
+}
+
+.previa-loja p { margin: 0; }
+
+.previa-loja .nome { font-size: 1.15rem; }
+
+.previa-loja .detalhe { color: #5c534c; font-weight: 400; }
+
+.acoes-item {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
 }
 
 .lista .nome { flex: 1 1 12rem; font-weight: 600; }
@@ -175,10 +201,6 @@ button[type="button"] { background: #5c534c; }
 code { font-size: 0.92em; }
 
 :focus-visible { outline: 3px solid #7a3b2e; outline-offset: 2px; }
-
-@media (min-width: 700px) {
-  .par { grid-template-columns: 1fr 1fr; }
-}
 
 @media (max-width: 599px) {
   .topo { align-items: flex-start; flex-direction: column; }

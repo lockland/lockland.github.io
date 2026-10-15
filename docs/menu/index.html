@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cardápio</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Fraunces:opsz,wght@9..144,560;9..144,680&family=Outfit:wght@500;700&family=Source+Sans+3:wght@400;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Fraunces:ital,opsz,wght@0,9..144,560;0,9..144,680;1,9..144,560&family=Outfit:wght@500;700&family=Source+Sans+3:wght@400;600&display=swap">
     <link rel="stylesheet" href="css/base.css">
     <link id="tema-css" rel="stylesheet" href="css/themes/claro.css">
   </head>
@@ -13,7 +13,11 @@
       <button id="imprimir" type="button" class="imprimir" hidden>Imprimir</button>
     </div>
     <div class="miolo">
-      <header id="cabecalho"></header>
+      <header id="cabecalho">
+        <div id="marca"></div>
+        <p class="lema">Sabores artesanais e momentos de aconchego para o seu dia.</p>
+        <hr class="linha-cabecalho">
+      </header>
       <nav id="categorias" class="categorias" hidden></nav>
       <main id="cardapio">
         <noscript><p class="vazio">O cardápio precisa de JavaScript para ler os dados deste navegador.</p></noscript>

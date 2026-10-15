@@ -55,13 +55,13 @@ flowchart TD
 | Visualização | `docs/menu/index.html` | Página padrão. Sem `preview=1`, lê o JSON publicado e esconde o link de administração. Com `preview=1`, lê o IndexedDB deste aparelho. |
 | Administração | `docs/menu/admin.html` | CRUD de loja e de produto, tema, CSV e publicação. Lê e grava o IndexedDB. |
 
-As duas telas funcionam em celular, tablet e desktop. No celular, formulários e listas empilham em uma coluna. A navegação por categoria da visualização permanece acessível durante a rolagem. O botão de WhatsApp fica fixo e deixa o rodapé legível.
+As duas telas funcionam em celular, tablet e desktop. No celular, formulários e listas empilham em uma coluna. A navegação por categoria da visualização permanece acessível durante a rolagem, em texto centralizado e separada por um fio, no lugar de botões. O botão de WhatsApp fica fixo e deixa o rodapé legível.
 
 ## Loja
 
 A administração lista, cria, edita e exclui lojas no IndexedDB. Cada loja é um registro próprio. Uma delas fica marcada como em uso. A visualização local e o `database.json` usam só essa loja.
 
-A primeira loja criada já nasce em uso. Marcar outra como em uso tira a marca da anterior. Excluir a loja em uso passa a marca para a próxima da lista. Sem lojas, a visualização omite logomarca, horário, endereço e WhatsApp.
+A primeira loja criada já nasce em uso. Marcar outra como em uso tira a marca da anterior. Excluir a loja em uso passa a marca para a próxima da lista. Sem lojas, a visualização omite logomarca, nome, título do cardápio, endereço e WhatsApp.
 
 | Campo | Regra |
 | --- | --- |
@@ -133,7 +133,7 @@ A página não exibe link para a administração. Quem conhece o endereço `admi
 Sem `preview=1`, a página lê o JSON publicado, mesmo que este navegador tenha produtos no IndexedDB, e mostra:
 
 - logomarca e nome da loja;
-- horário e dias de funcionamento;
+- o título **CARDÁPIO**, a frase *Sabores artesanais e momentos de aconchego para o seu dia.* e um fio dourado;
 - produtos visíveis, agrupados por categoria, no tema da origem escolhida;
 - no rodapé, o endereço e o link do Maps;
 - o botão de WhatsApp, quando há telefone;
@@ -143,7 +143,7 @@ Com `preview=1`, os mesmos blocos vêm do IndexedDB: loja em uso, tema e produto
 
 Quando a URL não tem `preview=1` e `database.json` ainda não existe ou não pode ser lido, a página informa que o cardápio ainda não foi publicado e omite lista, rodapé de endereço, botão de WhatsApp e botão de imprimir.
 
-A impressão contém somente a logomarca, o nome da loja, os dias de funcionamento, o horário e os produtos listados, com nome, descrição e preço no grupo da categoria. Navegação por categoria, endereço, link do Maps, WhatsApp e o botão de imprimir ficam de fora do papel. O tema aplicado na tela permanece na folha: cores, tipografia e o desenho dos produtos, inclusive fundos e destaques. A impressão não troca o cardápio por uma versão em preto e branco.
+A impressão contém somente a logomarca, o nome da loja, o título **CARDÁPIO**, a frase *Sabores artesanais e momentos de aconchego para o seu dia.*, o fio dourado e os produtos listados, com nome, descrição e preço no grupo da categoria. Dias e horário de funcionamento não entram na tela nem na folha. Navegação por categoria, endereço, link do Maps, WhatsApp e o botão de imprimir ficam de fora do papel. O tema aplicado na tela permanece na folha: cores, tipografia e o desenho dos produtos, inclusive fundos e destaques. A impressão não troca o cardápio por uma versão em preto e branco. O topo da folha tem uma margem de cerca de 2 cm.
 
 ## Administração
 
@@ -202,7 +202,7 @@ Alterar loja, produto, planilha ou tema atualiza o IndexedDB na hora. A prévia 
 - A visualização pública não mostra link para a administração.
 - Sem `preview=1`, a visualização lê `database.json` e ignora o IndexedDB, mesmo quando este aparelho tem produtos.
 - Com `preview=1`, a visualização mostra a loja em uso, o tema e os produtos visíveis do IndexedDB e ignora `database.json`.
-- **Imprimir** gera uma página com logomarca, nome, dias, horário e produtos listados, sem navegação, endereço, Maps e WhatsApp, e mantém o tema da tela, com cores, tipografia e fundos.
+- **Imprimir** gera uma página com logomarca, nome, o título CARDÁPIO, a frase do cardápio e os produtos listados, sem dias, horário, navegação, endereço, Maps e WhatsApp, mantém o tema da tela, com cores, tipografia e fundos, e deixa cerca de 2 cm de margem no topo.
 - A visualização agrupa os visíveis em salgados, doces, bebidas e almoços e esconde categoria vazia.
 - O CSV com as cinco colunas inclui produto novo e atualiza produto de mesmo nome.
 - Linha com categoria ou preço inválido aparece no relatório e as demais linhas do arquivo são gravadas.
@@ -211,7 +211,7 @@ Alterar loja, produto, planilha ou tema atualiza o IndexedDB na hora. A prévia 
 - Sem `preview=1`, a visualização lê esse JSON e aplica o tema publicado.
 - Sem `preview=1` e sem `database.json`, a visualização mostra o estado de cardápio ainda não publicado.
 - Com `preview=1` e sem loja nem produtos no IndexedDB, a visualização informa que não há cardápio salvo neste navegador.
-- A visualização mostra logomarca, nome, horário, dias, cardápio e, no rodapé, endereço com link do Maps.
+- A visualização mostra logomarca, nome, o título CARDÁPIO, a frase *Sabores artesanais e momentos de aconchego para o seu dia.*, o fio dourado, os produtos e, no rodapé, endereço com link do Maps. Dias e horário ficam só na administração.
 - Com telefone na origem do cardápio, o botão de WhatsApp abre WhatsApp Web no computador e `wa.me` no celular.
 - Sem telefone, o botão de WhatsApp não aparece.
 - Visualização e administração permanecem utilizáveis em celular e em desktop: leitura do cardápio, formulários e o botão fixo sem cobrir o rodapé.

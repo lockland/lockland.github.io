@@ -20,11 +20,12 @@ body {
 .imprimir {
   font: inherit;
   min-height: 44px;
-  padding: 0.4rem 0.9rem;
-  border: 1px solid var(--linha, #c4b7a6);
-  border-radius: 999px;
+  padding: 0.4rem 0.2rem;
+  border: 0;
   background: transparent;
-  color: inherit;
+  color: var(--muted, #6e6256);
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
   cursor: pointer;
 }
 
@@ -33,11 +34,11 @@ body {
   margin: 0 auto 2rem;
 }
 
-header { text-align: center; padding-top: 0.5rem; }
+header { text-align: center; padding-top: 1.5rem; }
 
 header img {
-  max-width: min(100%, 16rem);
-  max-height: 8rem;
+  max-width: min(100%, 11rem);
+  max-height: 7rem;
   object-fit: contain;
 }
 
@@ -46,15 +47,40 @@ h1, h2, h3 {
   font-weight: 650;
 }
 
-h1 {
-  font-size: clamp(2rem, 6vw, 3.4rem);
-  line-height: 1.1;
-  margin: 0.4rem 0;
+#marca:empty { display: none; }
+
+header h2 {
+  font-size: 1.35rem;
+  font-weight: 560;
+  line-height: 1.2;
+  margin: 0.65rem 0 0;
+  color: var(--titulo-cabecalho, var(--acento, #5c3824));
 }
 
-.horario {
-  color: var(--muted, #6e6256);
-  margin-top: 0;
+.titulo-cardapio {
+  margin: 0.35rem 0 0;
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 560;
+  font-size: 2rem;
+  letter-spacing: 0.04em;
+  line-height: 1.15;
+  color: var(--titulo-cabecalho, var(--acento, #5c3824));
+}
+
+.lema {
+  margin: 0.35rem 0 0;
+  font-family: "Fraunces", Georgia, serif;
+  font-style: italic;
+  font-weight: 560;
+  font-size: 1.05rem;
+  color: var(--titulo-cabecalho, var(--acento, #5c3824));
+}
+
+.linha-cabecalho {
+  width: 100%;
+  margin: 0.85rem 0 0;
+  border: 0;
+  border-top: 1px solid #c4a35a;
 }
 
 .categorias {
@@ -62,22 +88,33 @@ h1 {
   top: 0;
   z-index: 1;
   display: flex;
-  gap: 0.5rem;
-  overflow-x: auto;
-  padding: 0.6rem 0;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0;
+  padding: 1.35rem 0 0.4rem;
   background: var(--fundo, #f4efe6);
 }
 
 .categorias a {
-  color: inherit;
+  color: var(--titulo-cabecalho, var(--acento, #5c3824));
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 560;
   text-decoration: none;
-  border: 1px solid var(--linha, #c4b7a6);
-  border-radius: 999px;
-  padding: 0.35rem 0.8rem;
+  border: 0;
+  border-radius: 0;
+  padding: 0.45rem 0.85rem;
   white-space: nowrap;
   min-height: 44px;
   display: inline-flex;
   align-items: center;
+}
+
+.categorias a + a::before {
+  content: "";
+  width: 1px;
+  height: 0.9em;
+  margin-right: 0.85rem;
+  background: currentColor;
 }
 
 .grupo { margin: 1.75rem 0 2rem; }
@@ -147,7 +184,14 @@ footer a { color: inherit; }
     -webkit-print-color-adjust: exact;
   }
 
-  body { padding-bottom: 0; }
+  /* O diálogo de impressão troca a margem da página pela margem padrão.
+     O espaço de 2 cm fica no conteúdo para aparecer na prévia. */
+  body {
+    padding-top: 2cm;
+    padding-bottom: 0;
+  }
+
+  header { padding-top: 0; }
 
   .barra,
   .categorias,

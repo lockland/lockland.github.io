@@ -44,8 +44,13 @@ async function startAdminPage(document) {
 
 function bindAdminPage(state) {
   const { document } = state
+  document.querySelector("#adicionar-loja").addEventListener("click", () => openStoreModal(state))
   document.querySelector("#formulario-loja").addEventListener("submit", event => submitStore(state, event))
-  document.querySelector("#limpar-loja").addEventListener("click", () => clearStoreForm(state))
+  document.querySelector("#cancelar-loja").addEventListener("click", () => closeStoreModal(state))
+  document.querySelector("#modal-loja").addEventListener("click", event => {
+    if (event.target.id === "modal-loja") closeStoreModal(state)
+  })
+  document.querySelector("#modal-loja").addEventListener("close", () => clearStoreForm(state))
   document.querySelector("#adicionar-produto").addEventListener("click", () => openProductModal(state))
   document.querySelector("#formulario-produto").addEventListener("submit", event => submitProduct(state, event))
   document.querySelector("#cancelar-produto").addEventListener("click", () => closeProductModal(state))
@@ -61,7 +66,7 @@ function bindAdminPage(state) {
 async function refreshLists(state) {
   state.catalog = await readLocalCatalog(state.database)
   renderStoreList(state.document.querySelector("#lista-lojas"), state.catalog.stores, {
-    edit: store => fillStoreForm(state, store),
+    edit: store => openStoreModal(state, store),
     use: store => useStore(state, store),
     remove: store => deleteStore(state, store),
   })
@@ -73,7 +78,7 @@ async function refreshLists(state) {
 
 async function submitStore(state, event) {
   event.preventDefault()
-  clearMessage(state, "erro-loja")
+  clearMessage(state, "erro-modal-loja")
   const form = event.currentTarget
 
   try {
@@ -82,11 +87,11 @@ async function submitStore(state, event) {
       ? replaceStore(state.catalog.stores, storeKeepingUseFlag(state.catalog.stores, input))
       : addStore(state.catalog.stores, createStore(input, createIdentifier()))
     await saveStores(state.database, stores)
-    clearStoreForm(state)
+    closeStoreModal(state)
     await refreshLists(state)
     showStatus(state, "Loja salva.")
   } catch (error) {
-    showError(state, "erro-loja", error.message)
+    showError(state, "erro-modal-loja", error.message)
   }
 }
 
@@ -98,9 +103,6 @@ async function storeInputFromForm(state, form) {
     id: String(data.get("id") || ""),
     nome: data.get("nome"),
     logomarca,
-    abertura: data.get("abertura"),
-    fechamento: data.get("fechamento"),
-    dias: data.getAll("dias"),
     telefone: data.get("telefone"),
     endereco: data.get("endereco"),
     maps: data.get("maps"),
@@ -113,24 +115,32 @@ function storeKeepingUseFlag(stores, input) {
   return { ...draft, emUso: Boolean(current?.emUso) }
 }
 
+function openStoreModal(state, store) {
+  clearMessage(state, "erro-modal-loja")
+  if (store) fillStoreForm(state, store)
+  else clearStoreForm(state)
+
+  const dialog = state.document.querySelector("#modal-loja")
+  if (!dialog.open) dialog.showModal()
+  state.document.querySelector("#formulario-loja").elements.nome.focus()
+}
+
+function closeStoreModal(state) {
+  const dialog = state.document.querySelector("#modal-loja")
+  if (dialog.open) dialog.close()
+}
+
 function fillStoreForm(state, store) {
   const form = state.document.querySelector("#formulario-loja")
   form.elements.id.value = store.id
   form.elements.nome.value = store.nome
-  form.elements.abertura.value = store.abertura
-  form.elements.fechamento.value = store.fechamento
   form.elements.telefone.value = store.telefone
   form.elements.endereco.value = store.endereco
   form.elements.maps.value = store.maps
-  const selectedDays = new Set(store.dias)
-  form.querySelectorAll("input[name=dias]").forEach(input => {
-    input.checked = selectedDays.has(input.value)
-  })
   form.querySelector("input[name=logomarca]").value = ""
   state.storeLogo = store.logomarca || ""
   showLogoPreview(state, state.storeLogo)
-  form.querySelector("button[type=submit]").textContent = "Atualizar loja"
-  form.scrollIntoView({ behavior: "smooth", block: "start" })
+  setStoreModalLabels(state, true)
 }
 
 function clearStoreForm(state) {
@@ -139,10 +149,16 @@ function clearStoreForm(state) {
   form.elements.id.value = ""
   state.storeLogo = ""
   showLogoPreview(state, "")
-  form.querySelector("button[type=submit]").textContent = "Salvar loja"
+  setStoreModalLabels(state, false)
+}
+
+function setStoreModalLabels(state, editing) {
+  state.document.querySelector("#titulo-modal-loja").textContent = editing ? "Editar loja" : "Adicionar loja"
+  state.document.querySelector("#formulario-loja button[type=submit]").textContent = editing ? "Atualizar loja" : "Salvar loja"
 }
 
 async function useStore(state, store) {
+  clearMessage(state, "erro-loja")
   try {
     await saveStores(state.database, markStoreInUse(state.catalog.stores, store.id))
     await refreshLists(state)
@@ -153,13 +169,14 @@ async function useStore(state, store) {
 }
 
 async function deleteStore(state, store) {
+  clearMessage(state, "erro-loja")
   const confirmed = state.document.defaultView.confirm(`Excluir a loja ${store.nome}?`)
   if (!confirmed) return
 
   try {
     await saveStores(state.database, removeStore(state.catalog.stores, store.id))
     const form = state.document.querySelector("#formulario-loja")
-    if (form.elements.id.value === store.id) clearStoreForm(state)
+    if (form.elements.id.value === store.id) closeStoreModal(state)
     await refreshLists(state)
     showStatus(state, "Loja excluída.")
   } catch (error) {
