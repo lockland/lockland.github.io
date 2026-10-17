@@ -129,11 +129,16 @@ header h2 {
   margin: 0.9rem 0 1.1rem;
 }
 
-.nome { margin: 0; font-size: 1.05rem; }
+.nome { margin: 0; font-size: 1.25rem; }
 
 .traco { border-bottom: 1px dotted var(--linha, #c4b7a6); transform: translateY(-0.2rem); }
 
-.preco { margin: 0; font-variant-numeric: tabular-nums; }
+.preco {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
 
 .descricao {
   grid-column: 1 / -1;
@@ -198,5 +203,16 @@ footer a { color: inherit; }
   #rodape,
   .whatsapp {
     display: none !important;
+  }
+
+  .produto .nome {
+    font-size: 22pt;
+    line-height: 1.25;
+  }
+
+  .produto .preco {
+    font-size: 18pt;
+    line-height: 1.2;
+    font-weight: 600;
   }
 }
